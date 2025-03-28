@@ -60,6 +60,8 @@ public class VoxelMeshContainer : MonoBehaviour
         for(int i = 0; i < 5; i++) {
             voxel[1, 1 + i, 1] = new BlockType();
         }
+
+        voxel[2, 3, 3] = new BlockType();
         for(int i = 0; i < dimensionSize; i++) {
             for(int j = 0; j < dimensionSize; j++) {
                 for(int k = 0; k < dimensionSize; k++) {
@@ -68,8 +70,6 @@ public class VoxelMeshContainer : MonoBehaviour
             }
         }
 
-        //for(int i = 0 ;i < meshVertices.Count; i++) Debug.Log(meshVertices[i]);
-        //for(int i = 0; i < meshTriangles.Count; i++) Debug.Log(meshVertices[meshTriangles[i]]);
         meshFilter.mesh = new Mesh();
         meshFilter.mesh.vertices = meshVertices.ToArray();
         meshFilter.mesh.triangles = meshTriangles.ToArray();
