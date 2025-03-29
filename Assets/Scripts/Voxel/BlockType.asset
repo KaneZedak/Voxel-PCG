@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be7fa883d6e01ab4399305ad0992ff7d, type: 3}
   m_Name: BlockType
   m_EditorClassIdentifier: 
-  top: {fileID: 0}
-  bottom: {fileID: 0}
+  top: {fileID: 2800000, guid: d25af0e484b78b4498fcf888cffe0dda, type: 3}
+  bottom: {fileID: 2800000, guid: c3c605ada3df8bd4ba83b70b9f590d56, type: 3}
   left: {fileID: 0}
   right: {fileID: 0}
   front: {fileID: 0}
   rear: {fileID: 0}
+  id: 0

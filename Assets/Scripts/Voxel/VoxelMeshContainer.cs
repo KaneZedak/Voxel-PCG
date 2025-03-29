@@ -7,10 +7,15 @@ public class VoxelMeshContainer : MonoBehaviour
     public BlockType[,,] voxel;
     public int blockSize;
     private MeshFilter meshFilter;
+    private MeshRenderer meshRenderer;
 
     private List<Vector3> meshVertices = new List<Vector3>();
     private List<int> meshTriangles = new List<int>();
     private List<Vector2> meshUV = new List<Vector2>();
+
+    public BlockType[] blockTypes;
+    private TextureManager textureManager;
+    private Material material;
 
     private Vector3[] vertices = new Vector3[8]{
         new Vector3(0, 0, 0),
@@ -52,16 +57,32 @@ public class VoxelMeshContainer : MonoBehaviour
 
     void Awake() {
         voxel = new BlockType[dimensionSize,dimensionSize, dimensionSize];
+        meshFilter = GetComponent<MeshFilter>();
+        meshRenderer = GetComponent<MeshRenderer>();
+
+        textureManager = new TextureManager();
+        textureManager.blockTypes = blockTypes;
+        
+
+        
+
+        
     }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        meshFilter = GetComponent<MeshFilter>();
-        for(int i = 0; i < 5; i++) {
-            voxel[1, 1 + i, 1] = new BlockType();
-        }
+        textureManager.initialize();
+        meshRenderer.material.mainTexture = textureManager.getTexture();
+        createMesh();
+        renderMesh();
 
-        voxel[2, 3, 3] = new BlockType();
+    }
+
+    private void createMesh() {
+        voxel[2, 2, 3] = new BlockType();
+    }
+    private void renderMesh() {
         for(int i = 0; i < dimensionSize; i++) {
             for(int j = 0; j < dimensionSize; j++) {
                 for(int k = 0; k < dimensionSize; k++) {
@@ -74,6 +95,7 @@ public class VoxelMeshContainer : MonoBehaviour
         meshFilter.mesh.vertices = meshVertices.ToArray();
         meshFilter.mesh.triangles = meshTriangles.ToArray();
         meshFilter.mesh.uv = meshUV.ToArray();
+        for(int i = 0; i < meshUV.Count;i ++) Debug.Log(meshUV[i]);
     }
 
     private void renderQuad(int x, int y, int z) {
@@ -82,13 +104,7 @@ public class VoxelMeshContainer : MonoBehaviour
             int adjY = y + adjOffset[i,1];
             int adjZ = z + adjOffset[i,2];
             
-            if(adjX >= 0 && adjY >= 0 && adjZ >= 0 && adjX < dimensionSize && adjY < dimensionSize && adjZ < dimensionSize) {
-                //Debug.Log("X:" + adjX + "Y:" + adjY + "Z:" + adjZ);
-                
-                if(voxel[adjX,adjY, adjZ] == null) {
-                    addFace(x, y, z, i, voxel[x,y,z]);
-                }
-            } else {
+            if((adjX >= 0 && adjY >= 0 && adjZ >= 0 && adjX < dimensionSize && adjY < dimensionSize && adjZ < dimensionSize) || (voxel[adjX,adjY, adjZ] == null)) {
                 addFace(x, y, z, i, voxel[x,y,z]);
             }
         }
@@ -98,13 +114,20 @@ public class VoxelMeshContainer : MonoBehaviour
     private void addFace(int x, int y, int z, int index, BlockType blockType) {
         int vertexIndex = meshVertices.Count;
         int[] verticesIndex = {vertexIndex, vertexIndex+1, vertexIndex + 2, vertexIndex + 3};
+        Rect faceUVRect = textureManager.getTextureRectById(blockType.id, index);
+        Vector2[] UVCoord = {new Vector2(faceUVRect.x, faceUVRect.y + faceUVRect.height),
+                         new Vector2(faceUVRect.x + faceUVRect.width, faceUVRect.y + faceUVRect.height),
+                         new Vector2(faceUVRect.x, faceUVRect.y),
+                         new Vector2(faceUVRect.x + faceUVRect.width, faceUVRect.y)
+                         };
 
         for(int i = 0; i < 4; i++) {
             Vector3 devVector = vertices[faceVertices[index,i]];
             Vector3 VertexPosIndex = new Vector3(devVector.x + x, devVector.y + y, devVector.z + z);
             Vector3 VertexPos = new Vector3(VertexPosIndex.x * blockSize, VertexPosIndex.y * blockSize, VertexPosIndex.z * blockSize);
             
-            meshVertices.Add(VertexPos);
+            meshVertices.Add(VertexPos);      
+            meshUV.Add(UVCoord[i]);
         }
 
         

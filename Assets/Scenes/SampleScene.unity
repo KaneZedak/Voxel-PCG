@@ -459,6 +459,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dimensionSize: 10
   blockSize: 1
+  blockTypes:
+  - {fileID: 11400000, guid: fa295ff4359c06245a3bd8e5c984a9f2, type: 2}
 --- !u!33 &1143592173
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -504,8 +506,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 0}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
