@@ -1,6 +1,7 @@
 using UnityEngine;
 
 //class for PCG steps;
+[System.Serializable]
 public abstract class ProceduralModifier : ScriptableObject
 {
     //user voxelContainer to get access to the linked VoxelCreator

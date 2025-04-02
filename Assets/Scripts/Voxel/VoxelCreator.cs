@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class VoxelCreator : MonoBehaviour
 {
-    public int voxelSize = 1000;
+    public int voxelSize = 50;
     public BlockType[,,] voxel {get {return _voxel;} set {_voxel = voxel;}}
     private BlockType[,,] _voxel;
     
