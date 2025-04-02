@@ -74,9 +74,7 @@ public class VoxelMeshContainer : MonoBehaviour
     {
         textureManager.initialize();
         meshRenderer.material.mainTexture = textureManager.getTexture();
-        createMesh();
         renderMesh();
-
     }
 
     private void createMesh() {
