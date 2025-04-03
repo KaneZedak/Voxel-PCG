@@ -4,8 +4,8 @@ using UnityEngine;
 [System.Serializable]
 public class CavityCreator : ProceduralModifier
 {
-    private int[] locArray = new int[3];
-    private int[] sizeArray = new int[3];
+    public int[] locArray = new int[3];
+    public int[] sizeArray = new int[3];
 
     public Vector3 location {
         get {

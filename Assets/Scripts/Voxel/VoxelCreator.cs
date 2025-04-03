@@ -23,15 +23,17 @@ public class VoxelCreator : MonoBehaviour
                 pcgSteps[i].initialize(this);
             }
         }
+
+        for(int i = 0; i < pcgSteps.Length; i++) {
+            pcgSteps[i].Execute();
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        /*
-        for(int i = 0; i < pcgSteps.Length; i++) {
-            pcgSteps[i].Execute();
-        }*/
+        
+
     }
 
     // Update is called once per frame

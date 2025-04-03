@@ -18,7 +18,7 @@ public class VoxelMeshContainer : MonoBehaviour
 
     public float blockSize;
     public int chunkSize = 16;
-
+    public bool renderOuter = false;
 
     private List<Vector3> meshVertices = new List<Vector3>();
     private List<int> meshTriangles = new List<int>();
@@ -136,7 +136,7 @@ public class VoxelMeshContainer : MonoBehaviour
                 if((voxel[adjX,adjY, adjZ] == -1)) {
                     addFace(x, y, z, i);
                 }
-            } else {
+            } else if(renderOuter) {
                 addFace(x, y, z, i);
             }
         }

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a50f710ae1639e4c99aee28fe5e7e72, type: 3}
   m_Name: Cavity
   m_EditorClassIdentifier: 
-  location: {x: 0, y: 0, z: 0}
-  size: {x: 5, y: 5, z: 5}
-  cavityShape: 0
+  locArray: 050000000500000005000000
+  sizeArray: 030000000400000004000000
+  cavityShape: 1
