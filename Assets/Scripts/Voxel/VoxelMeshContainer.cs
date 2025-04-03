@@ -17,8 +17,8 @@ public class VoxelMeshContainer : MonoBehaviour
 
 
     public float blockSize;
-    private MeshFilter meshFilter;
-    private MeshRenderer meshRenderer;
+    public int chunkSize = 16;
+
 
     private List<Vector3> meshVertices = new List<Vector3>();
     private List<int> meshTriangles = new List<int>();
@@ -27,7 +27,8 @@ public class VoxelMeshContainer : MonoBehaviour
     public BlockType[] blockTypes;
     private TextureManager textureManager;
     private Material material;
-
+    private GameObject[] subMeshes;
+    
     private Vector3[] vertices = new Vector3[8]{
         new Vector3(0, 0, 0),
         new Vector3(1, 0, 0),
@@ -67,13 +68,8 @@ public class VoxelMeshContainer : MonoBehaviour
     };
 
     void Awake() {
-        meshFilter = GetComponent<MeshFilter>();
-        meshRenderer = GetComponent<MeshRenderer>();
-
         textureManager = new TextureManager();
         textureManager.blockTypes = blockTypes;
-        
-
         
 
         
@@ -83,7 +79,6 @@ public class VoxelMeshContainer : MonoBehaviour
     void Start()
     {
         textureManager.initialize();
-        meshRenderer.material.mainTexture = textureManager.getTexture();
 
         updateVoxel(GameObject.Find("VoxelCreator").GetComponent<VoxelCreator>().voxel);
         
@@ -95,21 +90,40 @@ public class VoxelMeshContainer : MonoBehaviour
         voxel[2, 2, 3] = 0;
     }
 
-    private void renderMesh() {
-        for(int i = 0; i < dimensionSize; i++) {
-            for(int j = 0; j < dimensionSize; j++) {
-                for(int k = 0; k < dimensionSize; k++) {
-                    if(voxel[i,j,k] != -1) renderQuad(i, j, k);
+    private void renderChunkMesh(int x, int y, int z) {
+        for(int i = x * chunkSize; i < (x + 1) * chunkSize; i++) {
+            for(int j = y * chunkSize; j < (y + 1) * chunkSize; j++) {
+                for(int k = z * chunkSize; k < (z + 1) * chunkSize; k++) {
+                    if(i < dimensionSize && j < dimensionSize && k < dimensionSize) {
+                        if(voxel[i,j,k] != -1) renderQuad(i,j,k);
+                    }
                 }
             }
         }
-
+        GameObject chunkObject = new GameObject(x + " " + y + " " + z);
+        chunkObject.transform.parent = this.transform;
+        MeshFilter meshFilter = chunkObject.AddComponent<MeshFilter>();
+        MeshRenderer meshRenderer = chunkObject.AddComponent<MeshRenderer>();
+        meshRenderer.material.mainTexture = textureManager.getTexture();
         meshFilter.mesh = new Mesh();
         meshFilter.mesh.vertices = meshVertices.ToArray();
         meshFilter.mesh.triangles = meshTriangles.ToArray();
         meshFilter.mesh.uv = meshUV.ToArray();
+        meshVertices.Clear();
+        meshTriangles.Clear();
+        meshUV.Clear();
+    }
+    private void renderMesh() {
+        for(int i = 0; i < dimensionSize / chunkSize + 1; i++) {
+            for(int j = 0; j < dimensionSize / chunkSize + 1; j++) {
+                for(int k = 0; k < dimensionSize / chunkSize + 1; k++) {
+                    renderChunkMesh(i,j,k);
+                }
+            }
+        }
+
         //for(int i = 0; i < meshUV.Count;i ++) Debug.Log(meshUV[i]);
-        Debug.Log(meshFilter.mesh.triangles.Length);
+        //Debug.Log(meshFilter.mesh.triangles.Length);
     }
 
     private void renderQuad(int x, int y, int z) {
