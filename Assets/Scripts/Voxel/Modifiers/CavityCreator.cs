@@ -64,7 +64,7 @@ public class CavityCreator : ProceduralModifier
         var voxel = voxelContainer.voxel;
         
         if(cavityShape == Shape.Square) {
-            voxel[(int)location.x, (int)location.y, (int)location.z] = null;
+            voxel[(int)location.x, (int)location.y, (int)location.z] = -1;
             
             int lowerX = (int)Mathf.Max(0, location.x - size.x + 1);
             int lowerY = (int)Mathf.Max(0, location.y - size.y + 1);
@@ -77,7 +77,7 @@ public class CavityCreator : ProceduralModifier
             for(int i = lowerX; i <= upperX; i++) {
                 for(int j = lowerY; j <= upperY; j++) {
                     for(int k = lowerZ; k <+ upperZ; k++) {
-                        voxel[i,j,k] = null;
+                        voxel[i,j,k] = -1;
                     }
                 }
             }

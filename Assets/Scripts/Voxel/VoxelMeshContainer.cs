@@ -3,9 +3,20 @@ using System.Collections.Generic;
 
 public class VoxelMeshContainer : MonoBehaviour
 {
-    public int dimensionSize = 20;
-    public BlockType[,,] voxel;
-    public int blockSize;
+    private int[,,] _voxel;
+    private int dimensionSize;
+
+    public int[,,] voxel {
+        get {
+            return _voxel;
+        }
+        set {
+            _voxel = voxel;
+        }
+    }
+
+
+    public float blockSize;
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
 
@@ -56,7 +67,6 @@ public class VoxelMeshContainer : MonoBehaviour
     };
 
     void Awake() {
-        voxel = new BlockType[dimensionSize,dimensionSize, dimensionSize];
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
 
@@ -74,17 +84,22 @@ public class VoxelMeshContainer : MonoBehaviour
     {
         textureManager.initialize();
         meshRenderer.material.mainTexture = textureManager.getTexture();
+
+        updateVoxel(GameObject.Find("VoxelCreator").GetComponent<VoxelCreator>().voxel);
+        
+        //createMesh();
         renderMesh();
     }
 
     private void createMesh() {
-        voxel[2, 2, 3] = new BlockType();
+        voxel[2, 2, 3] = 0;
     }
+
     private void renderMesh() {
         for(int i = 0; i < dimensionSize; i++) {
             for(int j = 0; j < dimensionSize; j++) {
                 for(int k = 0; k < dimensionSize; k++) {
-                    if(voxel[i,j,k] != null) renderQuad(i, j, k);
+                    if(voxel[i,j,k] != -1) renderQuad(i, j, k);
                 }
             }
         }
@@ -93,7 +108,8 @@ public class VoxelMeshContainer : MonoBehaviour
         meshFilter.mesh.vertices = meshVertices.ToArray();
         meshFilter.mesh.triangles = meshTriangles.ToArray();
         meshFilter.mesh.uv = meshUV.ToArray();
-        for(int i = 0; i < meshUV.Count;i ++) Debug.Log(meshUV[i]);
+        //for(int i = 0; i < meshUV.Count;i ++) Debug.Log(meshUV[i]);
+        Debug.Log(meshFilter.mesh.triangles.Length);
     }
 
     private void renderQuad(int x, int y, int z) {
@@ -102,17 +118,21 @@ public class VoxelMeshContainer : MonoBehaviour
             int adjY = y + adjOffset[i,1];
             int adjZ = z + adjOffset[i,2];
             
-            if((adjX >= 0 && adjY >= 0 && adjZ >= 0 && adjX < dimensionSize && adjY < dimensionSize && adjZ < dimensionSize) || (voxel[adjX,adjY, adjZ] == null)) {
-                addFace(x, y, z, i, voxel[x,y,z]);
+            if((adjX >= 0 && adjY >= 0 && adjZ >= 0 && adjX < dimensionSize && adjY < dimensionSize && adjZ < dimensionSize)) {
+                if((voxel[adjX,adjY, adjZ] == -1)) {
+                    addFace(x, y, z, i);
+                }
+            } else {
+                addFace(x, y, z, i);
             }
         }
         return;
     }
 
-    private void addFace(int x, int y, int z, int index, BlockType blockType) {
+    private void addFace(int x, int y, int z, int index) {
         int vertexIndex = meshVertices.Count;
         int[] verticesIndex = {vertexIndex, vertexIndex+1, vertexIndex + 2, vertexIndex + 3};
-        Rect faceUVRect = textureManager.getTextureRectById(blockType.id, index);
+        Rect faceUVRect = textureManager.getTextureRectById(voxel[x,y,z], index);
         Vector2[] UVCoord = {new Vector2(faceUVRect.x, faceUVRect.y + faceUVRect.height),
                          new Vector2(faceUVRect.x + faceUVRect.width, faceUVRect.y + faceUVRect.height),
                          new Vector2(faceUVRect.x, faceUVRect.y),
@@ -134,6 +154,12 @@ public class VoxelMeshContainer : MonoBehaviour
         }
         
         return;
+    }
+
+    public void updateVoxel(int[,,] newVoxel) {
+        if(newVoxel == null) return;
+        _voxel = newVoxel;
+        dimensionSize = newVoxel.GetLength(0);
     }
     // Update is called once per frame
     void Update()

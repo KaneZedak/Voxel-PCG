@@ -148,9 +148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dce7de7b45df7b4fb7aa81e1ff4b1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  voxelSize: 1000
-  pcgSteps:
-  - {fileID: 11400000, guid: 73ffd7b0fab58d14a8a2c62a74940f9b, type: 2}
+  voxelSize: 90
+  pcgSteps: []
 --- !u!4 &154086446
 Transform:
   m_ObjectHideFlags: 0
@@ -504,8 +503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2019671b109fed4691566b65dd68ad4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dimensionSize: 10
-  blockSize: 1
+  blockSize: 0.5
   blockTypes:
   - {fileID: 11400000, guid: fa295ff4359c06245a3bd8e5c984a9f2, type: 2}
 --- !u!33 &1143592173
@@ -541,7 +539,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
