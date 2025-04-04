@@ -151,6 +151,7 @@ MonoBehaviour:
   voxelSize: 100
   pcgSteps:
   - {fileID: 11400000, guid: 73ffd7b0fab58d14a8a2c62a74940f9b, type: 2}
+  - {fileID: 11400000, guid: f0464b0e43b96a745bc13fea7e86dbb0, type: 2}
 --- !u!4 &154086446
 Transform:
   m_ObjectHideFlags: 0

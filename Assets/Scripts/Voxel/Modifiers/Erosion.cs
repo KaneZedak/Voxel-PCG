@@ -5,7 +5,7 @@ using UnityEngine;
 //use CA for iterations of erosion
 public class Erosion : ProceduralModifier
 {
-    public int iteractions;
+    public int iterations;
 
     private int[] adjacent = {-1, 0, 1};
     private int[,,] voxel;
@@ -13,13 +13,16 @@ public class Erosion : ProceduralModifier
 
     public override void Execute() {
         voxel = voxelContainer.voxel;
-        for(int i = 0; i < voxelContainer.voxelSize; i++) {
-            for(int j = 0; j < voxelContainer.voxelSize; j++) {
-                for(int k = 0; k < voxelContainer.voxelSize; k++) {
-                    int result = calculateNeighbor(i,j,k);
-                    if(result == 0) voxel[i,j,k] = -1;
-                    else {
-                        if(Random.Range(0, 27) > result) voxel[i,j,k] = -1;
+
+        for(int m = 0; m < iterations; m++) {
+            for(int i = 0; i < voxelContainer.voxelSize; i++) {
+                for(int j = 0; j < voxelContainer.voxelSize; j++) {
+                    for(int k = 0; k < voxelContainer.voxelSize; k++) {
+                        int result = calculateNeighbor(i,j,k);
+                        if(result == 0) voxel[i,j,k] = -1;
+                        else {
+                            if(Random.Range(0, 27) > result) voxel[i,j,k] = -1;
+                        }
                     }
                 }
             }
@@ -40,6 +43,8 @@ public class Erosion : ProceduralModifier
                             if(voxel[dx,dy,dz] != -1) {
                                 sum += 1;
                             }
+                        } else {
+                            sum += 1;
                         }
                     }
                 }

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce98f1c7554018c4bb1cf4f1a2b2a95e, type: 3}
   m_Name: Erosion
   m_EditorClassIdentifier: 
-  iteractions: 0
+  iterations: 2
