@@ -4,10 +4,10 @@ using UnityEngine;
 [System.Serializable]
 public class CavityCreator : ProceduralModifier
 {
-    public int[] locArray = new int[3];
-    public int[] sizeArray = new int[3];
+    //public int[] locArray = new int[3];
+    //public int[] sizeArray = new int[3];
 
-    public Vector3 location {
+    public Vector3 location; /*{
         get {
             return new Vector3(locArray[0], locArray[1], locArray[2]);
         }
@@ -16,9 +16,9 @@ public class CavityCreator : ProceduralModifier
             locArray[1] = (int)location.y;
             locArray[2] = (int)location.z;
         }
-    }
+    }*/
 
-    public Vector3 size {
+    public Vector3 size; /*{
         get {
             return new Vector3(sizeArray[0], sizeArray[1], sizeArray[2]);
         }
@@ -27,9 +27,7 @@ public class CavityCreator : ProceduralModifier
             sizeArray[1] = (int)size.y;
             sizeArray[2] = (int)size.z;
         }
-    }
-
-
+    }*/
 
     //available shapes for cavity generation
     public enum Shape {
@@ -39,24 +37,10 @@ public class CavityCreator : ProceduralModifier
     
     public Shape cavityShape;
 
-    public CavityCreator() {
-        for(int i = 0; i < 3; i++) {
-            locArray[i] = 0;
-            sizeArray[i] = 3;
-        }
-        cavityShape = Shape.Square;
-    }
-
-    //use this constructor to initialize location and size
-    public CavityCreator(Vector3 cLocation, Vector3 cSize, Shape cShape = Shape.Oval) {
+    // Method to initialize the CavityCreator properties
+    public void initializeCavity(Vector3 cLocation, Vector3 cSize, Shape cShape) {
         location = cLocation;
         size = cSize;
-        cavityShape = cShape;
-    }
-    //use this constructor to initialize location and size
-    public CavityCreator(int[] cLocation, int[] cSize, Shape cShape = Shape.Oval) {
-        locArray = cLocation;
-        sizeArray = cSize;
         cavityShape = cShape;
     }
 
@@ -73,7 +57,7 @@ public class CavityCreator : ProceduralModifier
             int upperX = (int)Mathf.Min(location.x + size.x - 1, voxelContainer.voxelSize - 1);
             int upperY = (int)Mathf.Min(location.y + size.y - 1, voxelContainer.voxelSize - 1);
             int upperZ = (int)Mathf.Min(location.z + size.z - 1, voxelContainer.voxelSize - 1);
-
+            Debug.Log($"Cavity Bounds: Lower({lowerX}, {lowerY}, {lowerZ}), Upper({upperX}, {upperY}, {upperZ})");
             for(int i = lowerX; i <= upperX; i++) {
                 for(int j = lowerY; j <= upperY; j++) {
                     for(int k = lowerZ; k <+ upperZ; k++) {
