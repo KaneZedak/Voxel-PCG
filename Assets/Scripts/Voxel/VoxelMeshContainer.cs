@@ -28,7 +28,8 @@ public class VoxelMeshContainer : MonoBehaviour
     private TextureManager textureManager;
     private Material material;
     private GameObject[] subMeshes;
-    
+    private bool firstTimeRendering = true;
+
     private Vector3[] vertices = new Vector3[8]{
         new Vector3(0, 0, 0),
         new Vector3(1, 0, 0),
@@ -81,11 +82,18 @@ public class VoxelMeshContainer : MonoBehaviour
         textureManager.initialize();
 
         updateVoxel(GameObject.Find("VoxelCreator").GetComponent<VoxelCreator>().voxel);
-        
         //createMesh();
         renderMesh();
     }
 
+    void Update() {
+        
+        if(voxel == null) updateVoxel(GameObject.Find("VoxelCreator").GetComponent<VoxelCreator>().voxel);
+        else if(firstTimeRendering) {
+            firstTimeRendering = false;
+            renderMesh();
+        }
+    }
     private void createMesh() {
         voxel[2, 2, 3] = 0;
     }
@@ -175,9 +183,5 @@ public class VoxelMeshContainer : MonoBehaviour
         _voxel = newVoxel;
         dimensionSize = newVoxel.GetLength(0);
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
