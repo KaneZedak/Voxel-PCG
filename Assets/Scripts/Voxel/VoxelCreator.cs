@@ -9,6 +9,8 @@ public class VoxelCreator : MonoBehaviour
     public ProceduralModifier[] pcgSteps;
     public Vector3[] roomLocations; // Add this to store room locations
 
+    private VoxelMeshContainer meshContainer;
+
     /*void Awake() {
         _voxel = new int[voxelSize,voxelSize,voxelSize];
         for(int i = 0; i < voxelSize; i++) {
@@ -29,6 +31,11 @@ public class VoxelCreator : MonoBehaviour
             pcgSteps[i].Execute();
         }
     }*/
+
+    public void Start() {
+        meshContainer = GameObject.Find("VoxelMesh").GetComponent<VoxelMeshContainer>();
+        if(meshContainer == null) Debug.Log("VoxelMeshContainer not found!");
+    }
 
     public void Generate()
     {

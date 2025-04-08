@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: Erosion
   m_EditorClassIdentifier: 
   iterations: 2
+  adjacentErosion: 0
+  noCorner: 0

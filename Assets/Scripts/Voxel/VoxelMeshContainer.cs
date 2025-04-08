@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 public class VoxelMeshContainer : MonoBehaviour
 {
-    private int[,,] _voxel;
+    private VoxelCreator voxelContainer = null;
+    private int[,,] _voxel = null;
     private int dimensionSize;
 
     public int[,,] voxel {
@@ -23,12 +24,15 @@ public class VoxelMeshContainer : MonoBehaviour
     private List<Vector3> meshVertices = new List<Vector3>();
     private List<int> meshTriangles = new List<int>();
     private List<Vector2> meshUV = new List<Vector2>();
+    private GameObject[,,] subMeshes;
+    private Queue<Vector3> subMeshQueue = new Queue<Vector3>();
 
     public BlockType[] blockTypes;
     private TextureManager textureManager;
     private Material material;
-    private GameObject[] subMeshes;
     private bool firstTimeRendering = true;
+    private bool[,,] taintedChunk;
+    private int chunkDimension;
 
     private Vector3[] vertices = new Vector3[8]{
         new Vector3(0, 0, 0),
@@ -71,31 +75,38 @@ public class VoxelMeshContainer : MonoBehaviour
     void Awake() {
         textureManager = new TextureManager();
         textureManager.blockTypes = blockTypes;
-        
-
-        
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         textureManager.initialize();
-
-        updateVoxel(GameObject.Find("VoxelCreator").GetComponent<VoxelCreator>().voxel);
-        //createMesh();
-        renderMesh();
     }
 
     void Update() {
-        
-        if(voxel == null) updateVoxel(GameObject.Find("VoxelCreator").GetComponent<VoxelCreator>().voxel);
-        else if(firstTimeRendering) {
-            firstTimeRendering = false;
-            renderMesh();
+        if(voxelContainer == null) {
+            voxelContainer = GameObject.Find("VoxelCreator").GetComponent<VoxelCreator>();
+            
+        } else {
+            
+            if(_voxel == null && voxelContainer.voxel != null) {
+                //if(voxelContainer.voxel != null) Debug.Log("set");
+                updateVoxel(voxelContainer.voxel);
+            }
         }
-    }
-    private void createMesh() {
-        voxel[2, 2, 3] = 0;
+
+        if(voxel != null && voxelContainer != null) {
+            if(firstTimeRendering) {
+                renderMesh();
+                firstTimeRendering = false;
+            } else {
+                Vector3 activeMesh;
+                if(subMeshQueue.TryDequeue(out activeMesh)) {
+                    subMeshQueue.Enqueue(activeMesh);
+                    renderChunkMesh((int)activeMesh.x, (int)activeMesh.y, (int)activeMesh.z);
+                }
+            }
+        }
     }
 
     private void renderChunkMesh(int x, int y, int z) {
@@ -108,12 +119,28 @@ public class VoxelMeshContainer : MonoBehaviour
                 }
             }
         }
-        GameObject chunkObject = new GameObject(x + " " + y + " " + z);
+        GameObject chunkObject;
+        MeshFilter meshFilter;
+        MeshRenderer meshRenderer;
+
+        //create new game object for the chunk if not exit
+        if(subMeshes[x,y,z] == null) {
+            chunkObject = new GameObject(x + " " + y + " " + z);
+            subMeshes[x,y,z] = chunkObject;
+            chunkObject.AddComponent<MeshFilter>();
+            chunkObject.AddComponent<MeshRenderer>();
+        } else chunkObject = subMeshes[x,y,z];
+
+        meshFilter = chunkObject.GetComponent<MeshFilter>();
+        meshRenderer = chunkObject.GetComponent<MeshRenderer>();
+
+        chunkObject = subMeshes[x,y,z];
+
         chunkObject.transform.parent = this.transform;
-        MeshFilter meshFilter = chunkObject.AddComponent<MeshFilter>();
-        MeshRenderer meshRenderer = chunkObject.AddComponent<MeshRenderer>();
-        meshRenderer.material.mainTexture = textureManager.getTexture();
         meshFilter.mesh = new Mesh();
+
+        meshRenderer.material.mainTexture = textureManager.getTexture();
+        
         meshFilter.mesh.vertices = meshVertices.ToArray();
         meshFilter.mesh.triangles = meshTriangles.ToArray();
         meshFilter.mesh.uv = meshUV.ToArray();
@@ -121,11 +148,16 @@ public class VoxelMeshContainer : MonoBehaviour
         meshTriangles.Clear();
         meshUV.Clear();
     }
+
     private void renderMesh() {
-        for(int i = 0; i < dimensionSize / chunkSize + 1; i++) {
-            for(int j = 0; j < dimensionSize / chunkSize + 1; j++) {
-                for(int k = 0; k < dimensionSize / chunkSize + 1; k++) {
+        subMeshQueue.Clear();
+        chunkDimension = dimensionSize / chunkSize + 1;
+        subMeshes = new GameObject[chunkDimension,chunkDimension,chunkDimension];
+        for(int i = 0; i < chunkDimension; i++) {
+            for(int j = 0; j < chunkDimension; j++) {
+                for(int k = 0; k < chunkDimension; k++) {
                     renderChunkMesh(i,j,k);
+                    subMeshQueue.Enqueue(new Vector3(i, j, k));
                 }
             }
         }
@@ -184,4 +216,7 @@ public class VoxelMeshContainer : MonoBehaviour
         dimensionSize = newVoxel.GetLength(0);
     }
 
+    public void markForUpdate(int x, int y, int z) {
+        
+    }
 }

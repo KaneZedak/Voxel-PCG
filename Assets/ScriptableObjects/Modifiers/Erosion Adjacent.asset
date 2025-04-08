@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a50f710ae1639e4c99aee28fe5e7e72, type: 3}
-  m_Name: Cavity
+  m_Script: {fileID: 11500000, guid: ce98f1c7554018c4bb1cf4f1a2b2a95e, type: 3}
+  m_Name: Erosion Adjacent
   m_EditorClassIdentifier: 
-  locArray: 0a0000000a0000000a000000
-  sizeArray: 050000000500000005000000
-  location: {x: 10, y: 10, z: 10}
-  size: {x: 5, y: 5, z: 5}
-  cavityShape: 1
+  iterations: 1
+  adjacentErosion: 1
+  noCorner: 0
