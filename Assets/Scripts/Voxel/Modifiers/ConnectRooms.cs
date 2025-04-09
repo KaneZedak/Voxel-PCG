@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class ConnectRooms : ProceduralModifier
 {
     [System.Serializable]
-    public class SerializableDictionary : Dictionary<int, List<int>>, ISerializationCallbackReceiver
+    public class SerializableDictionary : Dictionary<int, List<int>> , ISerializationCallbackReceiver
     {
         [SerializeField] private List<int> keys = new List<int>();
         [SerializeField] private List<List<int>> values = new List<List<int>>();
@@ -46,7 +46,7 @@ public class ConnectRooms : ProceduralModifier
     {
         adjDict.Clear();
         foreach (var pair in adjacencyDict)
-        {
+        { 
             adjDict[pair.Key] = pair.Value;
         }
     }

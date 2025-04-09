@@ -58,11 +58,11 @@ public class VoxelCreator : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < pcgSteps.Length-1; i++)
+        for (int i = 0; i < pcgSteps.Length; i++)
         {
             if (pcgSteps[i] != null)
             {
-                pcgSteps[i] = Instantiate(pcgSteps[i]); // Ensure this line is within bounds
+                //pcgSteps[i] = Instantiate(pcgSteps[i]); // Ensure this line is within bounds
                 pcgSteps[i].initialize(this);
             }
             else
