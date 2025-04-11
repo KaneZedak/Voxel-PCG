@@ -15,7 +15,7 @@ MonoBehaviour:
   top: {fileID: 2800000, guid: d25af0e484b78b4498fcf888cffe0dda, type: 3}
   bottom: {fileID: 2800000, guid: c3c605ada3df8bd4ba83b70b9f590d56, type: 3}
   left: {fileID: 2800000, guid: 0d66af3dccbf397459ab55edd6fb96c7, type: 3}
-  right: {fileID: 0}
-  front: {fileID: 0}
-  rear: {fileID: 0}
+  right: {fileID: 2800000, guid: d25af0e484b78b4498fcf888cffe0dda, type: 3}
+  front: {fileID: 2800000, guid: 0d66af3dccbf397459ab55edd6fb96c7, type: 3}
+  rear: {fileID: 2800000, guid: c3c605ada3df8bd4ba83b70b9f590d56, type: 3}
   id: 0
