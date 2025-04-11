@@ -75,7 +75,7 @@ public class ConnectRooms : ProceduralModifier
                 continue;
             }
 
-            Vector3 roomALocation = voxelContainer.roomLocations[roomA]; // Use roomLocations for room coordinates
+            Vector3 roomALocation = voxelContainer.roomLocations[roomA];
             foreach (int roomB in pair.Value)
             {
                 if (roomB < 0 || roomB >= voxelContainer.roomLocations.Length)
@@ -86,26 +86,60 @@ public class ConnectRooms : ProceduralModifier
 
                 if (roomA < roomB) // Avoid duplicate connections
                 {
-                    Vector3 roomBLocation = voxelContainer.roomLocations[roomB]; // Use roomLocations for room coordinates
+                    Vector3 roomBLocation = voxelContainer.roomLocations[roomB];
 
-                    // Calculate the direction vector from roomA to roomB
-                    Vector3 direction = (roomBLocation - roomALocation).normalized;
-
-                    // Generate a tunnel between the two rooms
-                    Vector3 currentPosition = roomALocation;
-                    while (Vector3.Distance(currentPosition, roomBLocation) > 1.0f)
-                    {
-                        CreateTunnelSegment(currentPosition);
-                        currentPosition += direction;
-                    }
+                    // Generate a tunnel with randomized intermediate points
+                    GenerateTunnel(roomALocation, roomBLocation);
                 }
             }
         }
     }
 
+    private void GenerateTunnel(Vector3 start, Vector3 end)
+    {
+        int numPoints = 3; // Number of intermediate points
+        float randomRange = 6f; // Range for randomizing perpendicular coordinates
+        List<Vector3> points = new List<Vector3> { start };
+
+        // Calculate equidistant points and randomize their positions
+        for (int i = 1; i <= numPoints; i++)
+        {
+            float t = i / (float)(numPoints + 1);
+            Vector3 point = Vector3.Lerp(start, end, t);
+
+            // Randomize perpendicular coordinates
+            point.x += Random.Range(-randomRange, randomRange);
+            point.y += Random.Range(-randomRange, randomRange);
+            point.z += Random.Range(-randomRange, randomRange);
+
+            points.Add(point);
+        }
+
+        points.Add(end);
+
+        // Generate tunnels between consecutive points
+        for (int i = 0; i < points.Count - 1; i++)
+        {
+            GenerateTunnelSegment(points[i], points[i + 1]);
+        }
+    }
+
+    private void GenerateTunnelSegment(Vector3 start, Vector3 end)
+    {
+        Vector3 direction = (end - start).normalized;
+        float distance = Vector3.Distance(start, end);
+        int steps = Mathf.CeilToInt(distance);
+
+        for (int i = 0; i <= steps; i++)
+        {
+            Vector3 currentPosition = Vector3.Lerp(start, end, i / (float)steps);
+            CreateTunnelSegment(currentPosition);
+        }
+    }
+
     private void CreateTunnelSegment(Vector3 position)
     {
-        int tunnelWidth = 3; // Width of the tunnel
+        int tunnelWidth = 2; // Width of the tunnel
         int halfWidth = tunnelWidth / 2;
 
         for (int x = -halfWidth; x <= halfWidth; x++)

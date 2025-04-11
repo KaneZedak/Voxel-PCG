@@ -4,10 +4,10 @@ using UnityEngine;
 [System.Serializable]
 public class CavityCreator : ProceduralModifier
 {
-    public int[] locArray = new int[3];
-    public int[] sizeArray = new int[3];
+    //public int[] locArray = new int[3];
+    //public int[] sizeArray = new int[3];
 
-    public Vector3 location;/*{
+    public Vector3 location; /*{
         get {
             return new Vector3(locArray[0], locArray[1], locArray[2]);
         }
@@ -18,7 +18,7 @@ public class CavityCreator : ProceduralModifier
         }
     }*/
 
-    public Vector3 size;/*{
+    public Vector3 size; /*{
         get {
             return new Vector3(sizeArray[0], sizeArray[1], sizeArray[2]);
         }
@@ -60,7 +60,7 @@ public class CavityCreator : ProceduralModifier
             Debug.Log($"Cavity Bounds: Lower({lowerX}, {lowerY}, {lowerZ}), Upper({upperX}, {upperY}, {upperZ})");
             for(int i = lowerX; i <= upperX; i++) {
                 for(int j = lowerY; j <= upperY; j++) {
-                    for(int k = lowerZ; k <= upperZ; k++) {
+                    for(int k = lowerZ; k <+ upperZ; k++) {
                         voxel[i,j,k] = -1;
                     }
                 }
