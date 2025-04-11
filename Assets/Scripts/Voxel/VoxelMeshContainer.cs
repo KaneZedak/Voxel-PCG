@@ -122,22 +122,30 @@ public class VoxelMeshContainer : MonoBehaviour
         GameObject chunkObject;
         MeshFilter meshFilter;
         MeshRenderer meshRenderer;
+        MeshCollider meshCollider;
+
 
         //create new game object for the chunk if not exit
         if(subMeshes[x,y,z] == null) {
             chunkObject = new GameObject(x + " " + y + " " + z);
+            chunkObject.isStatic = true;
             subMeshes[x,y,z] = chunkObject;
             chunkObject.AddComponent<MeshFilter>();
             chunkObject.AddComponent<MeshRenderer>();
+            chunkObject.GetComponent<MeshFilter>().mesh = new Mesh();
+            chunkObject.AddComponent<MeshCollider>();
+            
         } else chunkObject = subMeshes[x,y,z];
 
         meshFilter = chunkObject.GetComponent<MeshFilter>();
         meshRenderer = chunkObject.GetComponent<MeshRenderer>();
-
+        meshCollider = chunkObject.GetComponent<MeshCollider>();
+        meshCollider.sharedMesh = chunkObject.GetComponent<MeshFilter>().mesh;
+        
         chunkObject = subMeshes[x,y,z];
 
         chunkObject.transform.parent = this.transform;
-        meshFilter.mesh = new Mesh();
+        
 
         meshRenderer.material.mainTexture = textureManager.getTexture();
         
