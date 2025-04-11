@@ -51,6 +51,7 @@ public class DungeonGenerator : MonoBehaviour
         Queue<int> roomQueue = new Queue<int>();
         roomQueue.Enqueue(0);
         cavityLocations[0] = new Vector3(50, 50, 50); // First cavity at a constant location
+        CameraController.Instance.SetCameraStartLocation(cavityLocations[0]); // Set startLocation to the center of the first cavity
 
         while (roomQueue.Count > 0)
         {
