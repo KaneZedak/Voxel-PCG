@@ -11,44 +11,23 @@ public class BlockType : ScriptableObject
     public Texture2D rear;
     public int id;
 
-    private Texture2D blockTextureAtlas;
     private Texture2D[] faceTextures;
-    private Rect[] textureRects;
-    private int[] UVRectIndex = new int[6];
 
-    private int maxTextureSize = 0;
-
-    public int rectIndex {get;set;}
-    public int textureTotalSize {get; private set;}
-    
-    public Vector2[,] uvVertexPos {
-        get{return this._uvVertex;}
-        set{this._uvVertex = uvVertexPos;}
-    }
-    private Vector2[,] _uvVertex;
-
-    public void initialize() {
-        Texture2D[] textures = {front, rear, left, right, bottom, top};
-        faceTextures = textures;
-
-        textureTotalSize = 0;
-        
-        for(int i = 0; i < textures.Length; i++) {
-            if(textures[i] != null) {
-                textureTotalSize += textures[i].width * textures[i].height;
-            }
-        }
+    public void Initialize()
+    {
+        faceTextures = new Texture2D[]
+        {
+            front  ?? Texture2D.blackTexture,
+            rear   ?? Texture2D.blackTexture,
+            left   ?? Texture2D.blackTexture,
+            right  ?? Texture2D.blackTexture,
+            bottom ?? Texture2D.blackTexture,
+            top    ?? Texture2D.blackTexture
+        };
     }
 
-    public Texture2D getBlockTextureAtlas() {
-        return blockTextureAtlas;
-    }
-
-    public Texture2D[] getBlockFaceTextures() {
+    public Texture2D[] getBlockFaceTextures()
+    {
         return faceTextures;
-    }
-
-    public Rect getUVVertices(int index) {
-        return textureRects[index];
     }
 }

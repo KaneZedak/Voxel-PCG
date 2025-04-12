@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class VoxelMeshContainer : MonoBehaviour
@@ -28,7 +28,9 @@ public class VoxelMeshContainer : MonoBehaviour
     private Queue<Vector3> subMeshQueue = new Queue<Vector3>();
 
     public BlockType[] blockTypes;
-    private TextureManager textureManager;
+    public TextureManager textureManager;
+   
+    private Material sharedMaterial;
     private Material material;
     private bool firstTimeRendering = true;
     private bool[,,] taintedChunk;
@@ -73,14 +75,18 @@ public class VoxelMeshContainer : MonoBehaviour
     };
 
     void Awake() {
-        textureManager = new TextureManager();
+       
         textureManager.blockTypes = blockTypes;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        textureManager.initialize();
+        textureManager.Initialize();
+
+        sharedMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        sharedMaterial.mainTexture = textureManager.GetTexture();  
+        sharedMaterial.enableInstancing = true;
     }
 
     void Update() {
@@ -145,10 +151,13 @@ public class VoxelMeshContainer : MonoBehaviour
         chunkObject = subMeshes[x,y,z];
 
         chunkObject.transform.parent = this.transform;
-        
+        meshRenderer.material = sharedMaterial;
 
-        meshRenderer.material.mainTexture = textureManager.getTexture();
-        
+        //meshRenderer.material.mainTexture = textureManager.GetTexture();
+     
+
+        Debug.Log(ReferenceEquals(meshRenderer.material.mainTexture, textureManager.GetTexture()));
+
         meshFilter.mesh.vertices = meshVertices.ToArray();
         meshFilter.mesh.triangles = meshTriangles.ToArray();
         meshFilter.mesh.uv = meshUV.ToArray();
@@ -194,7 +203,7 @@ public class VoxelMeshContainer : MonoBehaviour
     private void addFace(int x, int y, int z, int index) {
         int vertexIndex = meshVertices.Count;
         int[] verticesIndex = {vertexIndex, vertexIndex+1, vertexIndex + 2, vertexIndex + 3};
-        Rect faceUVRect = textureManager.getTextureRectById(voxel[x,y,z], index);
+        Rect faceUVRect = textureManager.GetTextureRectById(voxel[x,y,z], index);
         Vector2[] UVCoord = {new Vector2(faceUVRect.x, faceUVRect.y + faceUVRect.height),
                          new Vector2(faceUVRect.x + faceUVRect.width, faceUVRect.y + faceUVRect.height),
                          new Vector2(faceUVRect.x, faceUVRect.y),
