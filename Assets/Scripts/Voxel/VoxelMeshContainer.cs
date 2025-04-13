@@ -156,7 +156,7 @@ public class VoxelMeshContainer : MonoBehaviour
         //meshRenderer.material.mainTexture = textureManager.GetTexture();
      
 
-        Debug.Log(ReferenceEquals(meshRenderer.material.mainTexture, textureManager.GetTexture()));
+        //Debug.Log(ReferenceEquals(meshRenderer.material.mainTexture, textureManager.GetTexture()));
 
         meshFilter.mesh.vertices = meshVertices.ToArray();
         meshFilter.mesh.triangles = meshTriangles.ToArray();

@@ -82,7 +82,10 @@ public class DungeonGenerator : MonoBehaviour
         creator.roomLocations = new Vector3[numRooms];
 
         // Initialize pcgSteps with numRooms cavities + erosion + connect rooms
-        creator.pcgSteps = new ProceduralModifier[numRooms + 2];
+        //creator.pcgSteps = new ProceduralModifier[numRooms + 2];
+        
+        // Use list to store newly created modifiers first
+        List<ProceduralModifier> pcgModifiers = new List<ProceduralModifier>();
 
         for (int i = 0; i < numRooms; i++)
         {
@@ -90,20 +93,29 @@ public class DungeonGenerator : MonoBehaviour
             creator.roomLocations[i] = location; // Store room locations for use in ConnectRooms
             cavity = ScriptableObject.CreateInstance<CavityCreator>();
             cavity.initializeCavity(location, new Vector3(3, 4, 4), CavityCreator.Shape.Square);
-            creator.pcgSteps[i] = cavity;
-            creator.pcgSteps[i].initialize(creator);
+            pcgModifiers.Add(cavity);
+            cavity.initialize(creator);
             Debug.Log($"Cavity {i + 1}: Location({cavity.location}), Size({cavity.size})");
         }
 
         Erosion erosion = ScriptableObject.CreateInstance<Erosion>();
-        erosion.iterations = 2;
+        erosion.iterations = 1;
+        //erosion.linear = false;
         erosion.initialize(creator);
-        creator.pcgSteps[numRooms] = erosion;
+        pcgModifiers.Add(erosion);
 
+        Erosion adjErosion = ScriptableObject.CreateInstance<Erosion>();
+        adjErosion.iterations = 1;
+        adjErosion.adjacentErosion = true;
+        adjErosion.initialize(creator);
+        pcgModifiers.Add(adjErosion);
+        
         ConnectRooms connect = ScriptableObject.CreateInstance<ConnectRooms>();
         connect.SetAdjacencyDictionary(adjacencyDict);
         connect.initialize(creator);
-        creator.pcgSteps[numRooms + 1] = connect;
+        pcgModifiers.Add(connect);
+        
+        creator.pcgSteps = pcgModifiers.ToArray();
 
         creator.Generate(); // Generate the voxel structure
     }

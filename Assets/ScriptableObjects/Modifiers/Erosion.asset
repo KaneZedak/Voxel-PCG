@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iterations: 2
   adjacentErosion: 0
-  noCorner: 0
+  direction: {x: 0, y: 0, z: 0}
+  linear: 1
+  singularities: []
