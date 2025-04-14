@@ -3,15 +3,27 @@ using System.Collections.Generic;
 
 public class DungeonGenerator : MonoBehaviour
 {
+    public static DungeonGenerator Instance { get; private set; }
     public VoxelCreator creator;
     [SerializeField] int numRooms;
     CavityCreator cavity;
     private Dictionary<int, List<int>> adjacencyDict;
     private Dictionary<int, Vector3> cavityLocations;
+    string planetName;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if(Instance == null)
+        {
+            Instance = this; // Set the singleton instance
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject); // Destroy duplicate instance
+        }
+    }
+    public void CreateDungeon(){
         // Add VoxelCreator component to the GameObject
         // Initialize adjacency dictionary
         adjacencyDict = new Dictionary<int, List<int>>();
@@ -106,11 +118,5 @@ public class DungeonGenerator : MonoBehaviour
         creator.pcgSteps[numRooms + 1] = connect;
 
         creator.Generate(); // Generate the voxel structure
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
