@@ -1045,6 +1045,7 @@ GameObject:
   - component: {fileID: 1812504292}
   - component: {fileID: 1812504291}
   - component: {fileID: 1812504293}
+  - component: {fileID: 1812504294}
   m_Layer: 0
   m_Name: DungeonGenerator
   m_TagString: Untagged
@@ -1095,6 +1096,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   appId: 30638eab-c664-4f3d-93c6-cb4d7413e0db
   appSecret: a4a6756c6d6745733dfe64aaad45e2d2d077aa8861e224551b3435ede37cf0ae1ea186b4440db7cb6611874fbfbf261a3edcb898fa594cd53d13138ed622cce3f326839acde86e7eddbc2e1be9d558e81cc69047529a0708b583768e9db1c39806cdc310e7d81af2a0c64403a00d388b
+  planetName: 
+--- !u!114 &1812504294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812504290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c8bdd500679eff498616bdccb424cb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  planetProfiles:
+  - {fileID: 11400000, guid: cf9ec0505a20f0e4c807705184001820, type: 2}
+  - {fileID: 11400000, guid: 0da9d51338b5070449fcb8221a2a0606, type: 2}
+  - {fileID: 11400000, guid: 2517dc3e6713d6b4e8191c8641a93de3, type: 2}
+  - {fileID: 11400000, guid: e6f8cf0b651497b47aedea0bbe7aa1dd, type: 2}
+  - {fileID: 11400000, guid: 921dd0a77bce98047a500945babc9dfe, type: 2}
+  - {fileID: 11400000, guid: 371a29fb5ebc5dd4397aaa66d7b412fa, type: 2}
+  - {fileID: 11400000, guid: ed04234cf4813f946aaebf642c2d5762, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

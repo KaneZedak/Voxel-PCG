@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class DungeonGenerator : MonoBehaviour
@@ -23,7 +24,16 @@ public class DungeonGenerator : MonoBehaviour
             Destroy(gameObject); // Destroy duplicate instance
         }
     }
-    public void CreateDungeon(){
+
+    //calls to create dungeon coroutine;
+    public void CreateDungeon() {
+        StartCoroutine(CreateDungeonCoroutine());
+    }
+
+    private IEnumerator CreateDungeonCoroutine()
+    {
+        //Wait for Planet Profile To Load
+        while(!PlanetProfileLoader.finishedLoading) yield return null;
         // Add VoxelCreator component to the GameObject
         // Initialize adjacency dictionary
         adjacencyDict = new Dictionary<int, List<int>>();
@@ -130,5 +140,7 @@ public class DungeonGenerator : MonoBehaviour
         creator.pcgSteps = pcgModifiers.ToArray();
 
         creator.Generate(); // Generate the voxel structure
+
+        yield break;
     }
 }
