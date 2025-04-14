@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
+  - component: {fileID: 330585550}
   - component: {fileID: 330585549}
   m_Layer: 0
   m_Name: Main Camera
@@ -322,7 +323,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   mouseSensitivity: 100
---- !u!65 &330585549
+--- !u!54 &330585549
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &330585550
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1016,6 +1044,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1812504292}
   - component: {fileID: 1812504291}
+  - component: {fileID: 1812504293}
   m_Layer: 0
   m_Name: DungeonGenerator
   m_TagString: Untagged
@@ -1052,6 +1081,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1812504293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812504290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 809dc6c1c001a8b4480a3e39b5533e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  appId: 30638eab-c664-4f3d-93c6-cb4d7413e0db
+  appSecret: a4a6756c6d6745733dfe64aaad45e2d2d077aa8861e224551b3435ede37cf0ae1ea186b4440db7cb6611874fbfbf261a3edcb898fa594cd53d13138ed622cce3f326839acde86e7eddbc2e1be9d558e81cc69047529a0708b583768e9db1c39806cdc310e7d81af2a0c64403a00d388b
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
