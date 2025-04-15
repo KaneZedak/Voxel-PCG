@@ -240,9 +240,9 @@ public class AstronomyDistanceFetcher : MonoBehaviour
             Debug.Log("Planet distances fetched successfully.");
 
             planetName = GetRandomPlanetName(); // Get a random planet name
-            Debug.Log(planetName + " distance: " + GetPlanetDistance(planetName) + " km"); // Log the distance of the random planet
             //creates the dungeon after fetching distances
             DungeonGenerator.Instance.CreateDungeon(); // Call CreateDungeon after fetching distances
+            
         }
         else
         {

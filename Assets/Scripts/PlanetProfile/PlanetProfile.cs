@@ -6,7 +6,7 @@ public class PlanetProfile : ScriptableObject
     public string planetName;
     public int planetID;
     public float avgDistance;
-    public float distanceProportion {get;private set;}
+    public float distanceProportion;
 
     [System.Serializable]
     public struct RoomGenerationSettings {
