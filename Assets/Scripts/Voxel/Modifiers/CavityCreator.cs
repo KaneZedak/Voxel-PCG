@@ -31,7 +31,7 @@ public class CavityCreator : ProceduralModifier
 
     //available shapes for cavity generation
     public enum Shape {
-        Oval = 0,
+        Sphere = 0,
         Square = 1
     }
     
@@ -47,12 +47,17 @@ public class CavityCreator : ProceduralModifier
     public override void Execute() {
         var voxel = voxelContainer.voxel;
         
-        if(cavityShape == Shape.Square) {
+        if(cavityShape == Shape.Square || cavityShape == Shape.Sphere) {
+
+            int centerX = (int)location.x;
+            int centerY = (int)location.y;
+            int centerZ = (int)location.z;
+
             voxel[(int)location.x, (int)location.y, (int)location.z] = -1;
             
             int lowerX = (int)Mathf.Max(0, location.x - size.x + 1);
             int lowerY = (int)Mathf.Max(0, location.y - size.y + 1);
-            int lowerZ = (int)Mathf.Max(0, location.z - size.x + 1);
+            int lowerZ = (int)Mathf.Max(0, location.z - size.z + 1);
 
             int upperX = (int)Mathf.Min(location.x + size.x - 1, voxelContainer.voxelSize - 1);
             int upperY = (int)Mathf.Min(location.y + size.y - 1, voxelContainer.voxelSize - 1);
@@ -60,12 +65,23 @@ public class CavityCreator : ProceduralModifier
             Debug.Log($"Cavity Bounds: Lower({lowerX}, {lowerY}, {lowerZ}), Upper({upperX}, {upperY}, {upperZ})");
             for(int i = lowerX; i <= upperX; i++) {
                 for(int j = lowerY; j <= upperY; j++) {
-                    for(int k = lowerZ; k <+ upperZ; k++) {
-                        voxel[i,j,k] = -1;
+                    for(int k = lowerZ; k <= upperZ; k++) {
+                        if(cavityShape == Shape.Sphere) {
+                            if(Mathf.Pow((i - centerX), 2) / Mathf.Pow(size.x, 2) + Mathf.Pow((j - centerY), 2) / Mathf.Pow(size.y, 2) + Mathf.Pow((k - centerZ), 2) / Mathf.Pow(size.z, 2) <= 1f) {
+                                voxel[i,j,k] = -1;
+                            }
+                        } else {
+                            voxel[i,j,k] = -1;
+                        }
                     }
                 }
             }
         }
         return;
     }    
+
+    private float calculateEuclidean(float x1, float y1, float z1, float x2, float y2, float z2)
+    {
+        return Mathf.Pow(Mathf.Pow(x1 - x2, 2) + Mathf.Pow(y1 - y2, 2) + Mathf.Pow(z1 - z2, 2), 0.5f);
+    }
 }
