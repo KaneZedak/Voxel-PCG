@@ -114,18 +114,18 @@ public class DungeonGenerator : MonoBehaviour
             Vector3 location = cavityLocations[i];
             creator.roomLocations[i] = location; // Store room locations for use in ConnectRooms
             cavity = ScriptableObject.CreateInstance<CavityCreator>();
-            cavity.initializeCavity(location, new Vector3(3, 4, 4), CavityCreator.Shape.Square);
+            cavity.initializeCavity(location, new Vector3(3, 4, 4), CavityCreator.Shape.Sphere);
             pcgModifiers.Add(cavity);
             cavity.initialize(creator);
             Debug.Log($"Cavity {i + 1}: Location({cavity.location}), Size({cavity.size})");
         }
-
+/*
         Erosion erosion = ScriptableObject.CreateInstance<Erosion>();
         erosion.iterations = 1;
         //erosion.linear = false;
         erosion.initialize(creator);
         pcgModifiers.Add(erosion);
-
+        
         Erosion adjErosion = ScriptableObject.CreateInstance<Erosion>();
         adjErosion.iterations = 1;
         adjErosion.adjacentErosion = true;
@@ -136,7 +136,7 @@ public class DungeonGenerator : MonoBehaviour
         connect.SetAdjacencyDictionary(adjacencyDict);
         connect.initialize(creator);
         pcgModifiers.Add(connect);
-        
+  */      
         creator.pcgSteps = pcgModifiers.ToArray();
 
         creator.Generate(); // Generate the voxel structure
