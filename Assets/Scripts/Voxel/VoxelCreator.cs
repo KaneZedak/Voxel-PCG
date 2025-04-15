@@ -99,5 +99,4 @@ public class VoxelCreator : MonoBehaviour
     public bool inBound(int x, int y, int z) {
         return x >= 0 && y >= 0 && z >= 0 && x < voxelSize && y < voxelSize && z < voxelSize;
     }
-
 }

@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dce7de7b45df7b4fb7aa81e1ff4b1dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  voxelSize: 100
+  voxelSize: 200
   pcgSteps:
   - {fileID: 11400000, guid: 73ffd7b0fab58d14a8a2c62a74940f9b, type: 2}
   - {fileID: 11400000, guid: f0464b0e43b96a745bc13fea7e86dbb0, type: 2}
@@ -1013,7 +1013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockSize: 1
-  chunkSize: 30
+  chunkSize: 16
   renderOuter: 0
   blockTypes:
   - {fileID: 11400000, guid: fa295ff4359c06245a3bd8e5c984a9f2, type: 2}

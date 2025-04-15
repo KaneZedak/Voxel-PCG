@@ -71,7 +71,7 @@ public class DungeonGenerator : MonoBehaviour
         // Assign locations to cavities using breadth-first traversal
         Queue<int> roomQueue = new Queue<int>();
         roomQueue.Enqueue(0);
-        cavityLocations[0] = new Vector3(50, 50, 50); // First cavity at a constant location
+        cavityLocations[0] = new Vector3(100, 100, 100); // First cavity at a constant location
         CameraController.Instance.SetCameraStartLocation(cavityLocations[0]); // Set startLocation to the center of the first cavity
 
         while (roomQueue.Count > 0)
@@ -135,7 +135,10 @@ public class DungeonGenerator : MonoBehaviour
         connect.SetAdjacencyDictionary(adjacencyDict);
         connect.initialize(creator);
         pcgModifiers.Add(connect);
-    
+
+        BlockCleaning cleaning = ScriptableObject.CreateInstance<BlockCleaning>();
+        cleaning.initialize(creator);
+        pcgModifiers.Add(cleaning);
         creator.pcgSteps = pcgModifiers.ToArray();
 
         creator.Generate(); // Generate the voxel structure
