@@ -118,7 +118,7 @@ public class DungeonGenerator : MonoBehaviour
             cavity.initialize(creator);
             Debug.Log($"Cavity {i + 1}: Location({cavity.location}), Size({cavity.size})");
         }
-/*
+
         Erosion erosion = ScriptableObject.CreateInstance<Erosion>();
         erosion.iterations = 1;
         //erosion.linear = false;
@@ -135,7 +135,7 @@ public class DungeonGenerator : MonoBehaviour
         connect.SetAdjacencyDictionary(adjacencyDict);
         connect.initialize(creator);
         pcgModifiers.Add(connect);
-  */      
+    
         creator.pcgSteps = pcgModifiers.ToArray();
 
         creator.Generate(); // Generate the voxel structure
