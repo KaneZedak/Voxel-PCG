@@ -14,16 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetName: jupiter
   planetID: 0
-  avgDistance: 0
+  minDistance: 591.97
+  maxDistance: 965.52
+  distanceProportion: 0.6855562
   roomGenerationSetting:
+    numberOfRooms: 13
     minNumberOfRooms: 0
     maxNumberOfRooms: 0
-    minAdjacentRoomDistance: 0
-    maxAdjacentRoomDistance: 0
+    minAdjacentRoomDistance: 20.283342
+    maxAdjacentRoomDistance: 28.711124
   paythwaySetting:
     middlePointDiff: 0
     numberOfMidpoints: 0
+    levelOfAdjacency: 0.6
   erosionSetting:
-    baseSingularityStrength: 0
+    baseSingularityStrength: 0.7484449
     baseSingularityRange: 0
     baseSingularityEffect: 0

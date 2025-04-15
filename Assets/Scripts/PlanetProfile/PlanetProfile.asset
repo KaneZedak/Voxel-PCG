@@ -12,6 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2df183f6466a18a4392d3a760809e8e1, type: 3}
   m_Name: PlanetProfile
   m_EditorClassIdentifier: 
-  planetName: 
+  planetName: mercury
   planetID: 0
   avgDistance: 0
+  distanceProportion: 0
+  roomGenerationSetting:
+    numberOfRooms: 0
+    minNumberOfRooms: 0
+    maxNumberOfRooms: 0
+    minAdjacentRoomDistance: 0
+    maxAdjacentRoomDistance: 0
+  paythwaySetting:
+    middlePointDiff: 0
+    numberOfMidpoints: 0
+    levelOfAdjacency: 0
+  erosionSetting:
+    baseSingularityStrength: 0
+    baseSingularityRange: 0
+    baseSingularityEffect: 0

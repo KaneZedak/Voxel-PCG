@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetName: venus
   planetID: 0
-  avgDistance: 0
+  minDistance: 39.79
+  maxDistance: 259.71
+  distanceProportion: 0
   roomGenerationSetting:
+    numberOfRooms: 4
     minNumberOfRooms: 0
     maxNumberOfRooms: 0
     minAdjacentRoomDistance: 0
@@ -23,6 +26,7 @@ MonoBehaviour:
   paythwaySetting:
     middlePointDiff: 0
     numberOfMidpoints: 0
+    levelOfAdjacency: 0.7
   erosionSetting:
     baseSingularityStrength: 0
     baseSingularityRange: 0

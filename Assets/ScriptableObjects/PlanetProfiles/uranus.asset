@@ -14,16 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetName: uranus
   planetID: 0
-  avgDistance: 0
+  minDistance: 2586.88
+  maxDistance: 3154.91
+  distanceProportion: 0.8192105
   roomGenerationSetting:
+    numberOfRooms: 12
     minNumberOfRooms: 0
     maxNumberOfRooms: 0
-    minAdjacentRoomDistance: 0
-    maxAdjacentRoomDistance: 0
+    minAdjacentRoomDistance: 22.288158
+    maxAdjacentRoomDistance: 31.38421
   paythwaySetting:
     middlePointDiff: 0
     numberOfMidpoints: 0
+    levelOfAdjacency: 0.6
   erosionSetting:
-    baseSingularityStrength: 0
+    baseSingularityStrength: 0.87344736
     baseSingularityRange: 0
     baseSingularityEffect: 0

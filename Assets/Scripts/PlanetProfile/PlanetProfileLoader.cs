@@ -47,16 +47,12 @@ public class PlanetProfileLoader : MonoBehaviour
                 if(activeProfile == null) {
                     planetProfiles[i].initialize(astronomyFetcher.GetPlanetDistance(planetProfiles[i].planetName));
                     activeProfile = planetProfiles[i];
-                    SetDistance();
                     Debug.Log($"Planet Profile {activeProfile.planetName} Loaded.");
                 }
             }
         }
         _finishedLoading = true;
         yield break;
-    }
-    public void SetDistance(){
-        activeProfile.distanceProportion = astronomyFetcher.GetPlanetDistance(activeProfile.planetName)/activeProfile.avgDistance;
     }
     
 

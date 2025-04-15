@@ -14,16 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetName: neptune
   planetID: 0
-  avgDistance: 0
+  minDistance: 4311.02
+  maxDistance: 4685.02
+  distanceProportion: 0.7911605
   roomGenerationSetting:
+    numberOfRooms: 9
     minNumberOfRooms: 0
     maxNumberOfRooms: 0
-    minAdjacentRoomDistance: 0
-    maxAdjacentRoomDistance: 0
+    minAdjacentRoomDistance: 21.867409
+    maxAdjacentRoomDistance: 30.823212
   paythwaySetting:
     middlePointDiff: 0
     numberOfMidpoints: 0
+    levelOfAdjacency: 0.3
   erosionSetting:
-    baseSingularityStrength: 0
+    baseSingularityStrength: 0.8538124
     baseSingularityRange: 0
     baseSingularityEffect: 0

@@ -191,77 +191,43 @@ public class AstronomyDistanceFetcher : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             string json = request.downloadHandler.text;
-            Debug.Log($"Raw JSON Response: {json}"); // Log the raw JSON response for debugging
 
             AstronomyAPIResponse response = JsonUtility.FromJson<AstronomyAPIResponse>(json);
 
             if (response.data == null || response.data.table == null || response.data.table.rows == null)
             {
-                Debug.LogError("The JSON response structure does not match the expected format.");
                 yield break;
             }
 
             foreach (Row row in response.data.table.rows)
             {
-                Debug.Log($"Processing entry: {row.entry.name}"); // Log the name of the celestial body
-
                 foreach (Cell cell in row.cells)
                 {
-                    Debug.Log($"Processing cell for {cell.name} on {cell.date}");
-
                     if (cell.distance != null && cell.distance.fromEarth != null)
                     {
                         float km = float.Parse(cell.distance.fromEarth.km);
-                        float au = float.Parse(cell.distance.fromEarth.au);
                         planetDistances[cell.name.ToLower()] = km; // Store the distance in kilometers
-                        Debug.Log($"{cell.name} is {km:N0} km / {au:N4} AU from Earth.");
-                    }
-
-                    if (cell.position != null)
-                    {
-                        if (cell.position.horizontal != null)
-                        {
-                            Debug.Log($"Horizontal Position of {cell.name}: Altitude = {cell.position.horizontal.altitude.degrees}°, Azimuth = {cell.position.horizontal.azimuth.degrees}°");
-                        }
-
-                        if (cell.position.equatorial != null)
-                        {
-                            Debug.Log($"Equatorial Position of {cell.name}: RA = {cell.position.equatorial.rightAscension.hours}h, Dec = {cell.position.equatorial.declination.degrees}°");
-                        }
-                    }
-
-                    if (cell.extraInfo != null)
-                    {
-                        Debug.Log($"Extra Info for {cell.name}: Elongation = {cell.extraInfo.elongation}, Magnitude = {cell.extraInfo.magnitude}");
                     }
                 }
             }
 
-            Debug.Log("Planet distances fetched successfully.");
-
             planetName = GetRandomPlanetName(); // Get a random planet name
-            //creates the dungeon after fetching distances
+            Debug.Log("planet name " + planetName);
             DungeonGenerator.Instance.CreateDungeon(); // Call CreateDungeon after fetching distances
-            
         }
         else
         {
-            Debug.LogError($"API call failed: {request.error}. Response Code: {request.responseCode}");
-
-            // Log the response body for debugging
             if (request.downloadHandler != null)
             {
                 string errorResponse = request.downloadHandler.text;
-                Debug.LogError($"Error Response Body: {errorResponse}");
             }
 
-            // Log the response headers for debugging
             var responseHeaders = request.GetResponseHeaders();
             if (responseHeaders != null)
             {
                 foreach (var header in responseHeaders)
                 {
-                    Debug.LogError($"Header: {header.Key} = {header.Value}");
+                    // ...existing code...
                 }
             }
         }
@@ -279,11 +245,10 @@ public class AstronomyDistanceFetcher : MonoBehaviour
         planetName = planetName.ToLower();
         if (planetDistances.TryGetValue(planetName, out float distance))
         {
-            return distance;
+            return distance / 1000000f;
         }
         else
         {
-            Debug.LogError($"Distance for planet {planetName} is not available.");
             return -1f; // Return -1 if the distance is not available
         }
     }

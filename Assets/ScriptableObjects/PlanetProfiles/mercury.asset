@@ -14,16 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetName: mercury
   planetID: 0
-  avgDistance: 0
+  minDistance: 82.5
+  maxDistance: 216.3
+  distanceProportion: 0.23964788
   roomGenerationSetting:
+    numberOfRooms: 4
     minNumberOfRooms: 0
     maxNumberOfRooms: 0
-    minAdjacentRoomDistance: 0
-    maxAdjacentRoomDistance: 0
+    minAdjacentRoomDistance: 13.594718
+    maxAdjacentRoomDistance: 19.792957
   paythwaySetting:
     middlePointDiff: 0
     numberOfMidpoints: 0
+    levelOfAdjacency: 0.7
   erosionSetting:
-    baseSingularityStrength: 0
+    baseSingularityStrength: 0.3917183
     baseSingularityRange: 0
     baseSingularityEffect: 0

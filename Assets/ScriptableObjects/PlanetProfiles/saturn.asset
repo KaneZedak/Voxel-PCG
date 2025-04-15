@@ -14,16 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetName: saturn
   planetID: 0
-  avgDistance: 0
+  minDistance: 1204.28
+  maxDistance: 1652.48
+  distanceProportion: 0.80280524
   roomGenerationSetting:
+    numberOfRooms: 11
     minNumberOfRooms: 0
     maxNumberOfRooms: 0
-    minAdjacentRoomDistance: 0
-    maxAdjacentRoomDistance: 0
+    minAdjacentRoomDistance: 22.042078
+    maxAdjacentRoomDistance: 31.056105
   paythwaySetting:
     middlePointDiff: 0
     numberOfMidpoints: 0
+    levelOfAdjacency: 0.8
   erosionSetting:
-    baseSingularityStrength: 0
+    baseSingularityStrength: 0.8619637
     baseSingularityRange: 0
     baseSingularityEffect: 0

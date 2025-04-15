@@ -5,7 +5,8 @@ public class PlanetProfile : ScriptableObject
 {
     public string planetName;
     public int planetID;
-    public float avgDistance;
+    public float minDistance;
+    public float maxDistance;
     public float distanceProportion;
 
     [System.Serializable]
@@ -39,7 +40,24 @@ public class PlanetProfile : ScriptableObject
     public PathwaySettings paythwaySetting;
     public ErosionSettings erosionSetting;
 
-    public void initialize(float currentDistance) {
-        distanceProportion = currentDistance / (avgDistance + 0.0f);
+    public void initialize(float currentDistance)
+    {
+        if (maxDistance > minDistance)
+        {
+            // Linear interpolation to calculate distanceProportion
+            distanceProportion = Mathf.Clamp01((currentDistance - minDistance) / (maxDistance - minDistance));
+        }
+        else
+        {
+            Debug.LogWarning("Invalid minDistance and maxDistance values. Setting distanceProportion to 0.");
+            distanceProportion = 0f;
+        }
+        Debug.Log("current distance "+ currentDistance);
+        Debug.Log("distanceProportion "+ distanceProportion);
+        // Set numberOfRooms to range from 4 to 8 based on distanceProportion
+        roomGenerationSetting.numberOfRooms += Mathf.RoundToInt(Mathf.Lerp(0, 4, distanceProportion));
+        roomGenerationSetting.minAdjacentRoomDistance = 15 + Mathf.Lerp(-5, 10, distanceProportion);
+        roomGenerationSetting.maxAdjacentRoomDistance = 20 + Mathf.Lerp(-5, 15, distanceProportion);
+        erosionSetting.baseSingularityStrength = Mathf.Lerp(0.3f, 1f,distanceProportion);
     }
 }

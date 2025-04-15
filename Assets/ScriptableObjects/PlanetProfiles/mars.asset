@@ -14,16 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   planetName: mars
   planetID: 0
-  avgDistance: 0
+  minDistance: 55.65
+  maxDistance: 399.58
+  distanceProportion: 0.39495108
   roomGenerationSetting:
+    numberOfRooms: 7
     minNumberOfRooms: 0
     maxNumberOfRooms: 0
-    minAdjacentRoomDistance: 0
-    maxAdjacentRoomDistance: 0
+    minAdjacentRoomDistance: 15.924266
+    maxAdjacentRoomDistance: 22.899021
   paythwaySetting:
     middlePointDiff: 0
     numberOfMidpoints: 0
+    levelOfAdjacency: 0.5
   erosionSetting:
-    baseSingularityStrength: 0
+    baseSingularityStrength: 0.5764658
     baseSingularityRange: 0
     baseSingularityEffect: 0
