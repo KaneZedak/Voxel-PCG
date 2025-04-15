@@ -10,6 +10,7 @@ public class PlanetProfile : ScriptableObject
 
     [System.Serializable]
     public struct RoomGenerationSettings {
+        public int numberOfRooms;
         public int minNumberOfRooms;
         public int maxNumberOfRooms;
         public float minAdjacentRoomDistance;
@@ -20,6 +21,7 @@ public class PlanetProfile : ScriptableObject
     public struct PathwaySettings {
         public float middlePointDiff;
         public int numberOfMidpoints;
+        public float levelOfAdjacency;
     }
 
     [System.Serializable]
@@ -29,6 +31,10 @@ public class PlanetProfile : ScriptableObject
         public int baseSingularityEffect;
     }
 
+    [System.Serializable]
+    public struct TextureSettings {
+        public BlockType[] blockTypes;
+    }
     public RoomGenerationSettings roomGenerationSetting;
     public PathwaySettings paythwaySetting;
     public ErosionSettings erosionSetting;

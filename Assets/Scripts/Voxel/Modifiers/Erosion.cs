@@ -40,7 +40,7 @@ public class Erosion : ProceduralModifier
         
         List<Singularity> singularityList = new List<Singularity>();
         for(int i = 0; i < voxelContainer.roomLocations.Length; i++) {
-            singularityList.Add(new Singularity((int)voxelContainer.roomLocations[i].x, (int)voxelContainer.roomLocations[i].y, (int)voxelContainer.roomLocations[i].z, 1f, 8, 2));
+            singularityList.Add(new Singularity((int)voxelContainer.roomLocations[i].x, (int)voxelContainer.roomLocations[i].y, (int)voxelContainer.roomLocations[i].z, 9999f, 8, 2));
         }
         singularities = singularityList.ToArray();
 
