@@ -16,6 +16,9 @@ public class TextureManager : MonoBehaviour
     private float timer = 0f;
     private Dictionary<Texture2D, int[,]> grids = new Dictionary<Texture2D, int[,]>();
     private Dictionary<int, int> blockIdToFaceCount = new Dictionary<int, int>();
+
+    private Dictionary<Texture2D, (Color alive, Color dead)> textureColors = new();
+    private Dictionary<Texture2D, int> textureRules = new();
     void Start()
     {
         Initialize();
@@ -36,21 +39,33 @@ public class TextureManager : MonoBehaviour
         blockTypeIndex = new int[blockTypes.Length];
         textures = new List<Texture2D>();
         grids = new Dictionary<Texture2D, int[,]>();
+        textureColors = new Dictionary<Texture2D, (Color alive, Color dead)>();
+        textureRules = new Dictionary<Texture2D, int>();
 
         int index = 0;
 
         for (int i = 0; i < blockTypes.Length; i++)
         {
-            blockTypes[i].Initialize();
-            var faceTex = blockTypes[i].getBlockFaceTextures(); // 
+            if (blockTypes[i] == null) continue;
 
-            foreach (var _ in faceTex)
+            blockTypes[i].Initialize();
+            var faceTex = blockTypes[i].getBlockFaceTextures(); 
+
+            for (int faceIndex = 0; faceIndex < faceTex.Length; faceIndex++)
             {
                 Texture2D dynamicTex = new Texture2D(faceSize, faceSize, TextureFormat.RGBA32, false);
                 dynamicTex.filterMode = FilterMode.Point;
                 dynamicTex.wrapMode = TextureWrapMode.Clamp;
 
                 int[,] grid = new int[faceSize, faceSize];
+                Color alive = blockTypes[i].aliveColors[faceIndex];
+                Color dead = blockTypes[i].deadColors[faceIndex];
+                int rule = blockTypes[i].caRules[faceIndex];
+
+                textureColors[dynamicTex] = (alive, dead);
+                textureRules[dynamicTex] = rule;
+                grids[dynamicTex] = grid;
+                
 
                 for (int x = 0; x < faceSize; x++)
                     for (int y = 0; y < faceSize; y++)
@@ -61,7 +76,7 @@ public class TextureManager : MonoBehaviour
 
                 dynamicTex.Apply();
                 textures.Add(dynamicTex);
-                grids[dynamicTex] = grid;
+                
             }
 
             blockTypeIndex[blockTypes[i].id] = index;
@@ -147,10 +162,12 @@ public class TextureManager : MonoBehaviour
         textureAtlas.Apply(false, false); 
     }
 
-    void StepCA(int[,] grid, Texture2D tex, int rule)
+    void StepCA(int[,] grid, Texture2D tex, int _)
     {
         int size = grid.GetLength(0);
         int[,] next = new int[size, size];
+
+        if (!textureRules.TryGetValue(tex, out int rule)) rule = 0;
 
         for (int x = 0; x < size; x++)
             for (int y = 0; y < size; y++)
@@ -160,23 +177,32 @@ public class TextureManager : MonoBehaviour
 
                 switch (rule)
                 {
-                    case 0: // Game of Life
-                        next[x, y] = (current == 1 && (alive == 2 || alive == 3)) || (current == 0 && alive == 3) ? 1 : 0;
+                    case 0: 
+                        int topZone = size * 4 / 5;
+                        int bottomZone = size* 3/ 5;
+
+                        if (y >= topZone)
+                        {
+                            
+                            if (current == 1 && Random.value > 0.50f) next[x, y] = 0;
+                            else if (current == 0 && Random.value > 0.98f) next[x, y] = 1;
+                            else next[x, y] = current;
+                        }
+                        else if (y < bottomZone)
+                        {
+                           
+                            if (current == 1 && Random.value > 0.98f) next[x, y] = 0;
+                            else if (current == 0 && Random.value > 0.50f) next[x, y] = 1;
+                            else next[x, y] = current;
+                        }
+                        else
+                        {
+                           
+                            next[x, y] = (Random.value > 0.5f) ? 1 : 0;
+                        }
                         break;
 
-                    case 1: // Isolated survive
-                        next[x, y] = alive == 0 ? 1 : 0;
-                        break;
-
-                    case 2: // Spread if touching
-                        next[x, y] = alive >= 1 ? 1 : current;
-                        break;
-
-                    case 3: // Random noise
-                        next[x, y] = Random.value > 0.5f ? 1 : 0;
-                        break;
-
-                    case 4: // Chaotic spread 
+                    case 1: 
                         next[x, y] = (alive + Random.Range(0, 2)) % 2;
                         break;
 
@@ -185,12 +211,13 @@ public class TextureManager : MonoBehaviour
                         break;
                 }
             }
+        var colors = textureColors[tex];
 
         for (int x = 0; x < size; x++)
             for (int y = 0; y < size; y++)
             {
                 grid[x, y] = next[x, y];
-                tex.SetPixel(x, y, grid[x, y] == 1 ? Color.green : Color.black);
+                tex.SetPixel(x, y, grid[x, y] == 1 ? colors.alive : colors.dead);
             }
     }
 

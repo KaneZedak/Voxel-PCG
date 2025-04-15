@@ -12,10 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be7fa883d6e01ab4399305ad0992ff7d, type: 3}
   m_Name: BlockType
   m_EditorClassIdentifier: 
+  id: 0
   top: {fileID: 2800000, guid: d25af0e484b78b4498fcf888cffe0dda, type: 3}
   bottom: {fileID: 2800000, guid: c3c605ada3df8bd4ba83b70b9f590d56, type: 3}
   left: {fileID: 2800000, guid: 0d66af3dccbf397459ab55edd6fb96c7, type: 3}
   right: {fileID: 2800000, guid: d25af0e484b78b4498fcf888cffe0dda, type: 3}
   front: {fileID: 2800000, guid: 0d66af3dccbf397459ab55edd6fb96c7, type: 3}
   rear: {fileID: 2800000, guid: c3c605ada3df8bd4ba83b70b9f590d56, type: 3}
-  id: 0
+  aliveColors:
+  - {r: 0.18140244, g: 1, b: 0, a: 0}
+  - {r: 0.18781996, g: 1, b: 0, a: 0}
+  - {r: 0.09789959, g: 0.8301887, b: 0.64121085, a: 0}
+  - {r: 0.8867924, g: 0.11294055, b: 0.11294055, a: 0}
+  - {r: 0.8113208, g: 0.77133375, b: 0.08802067, a: 0}
+  - {r: 0.32270405, g: 0.8773585, b: 0.1448469, a: 0}
+  deadColors:
+  - {r: 0.7372549, g: 0.10518578, b: 0.050980408, a: 0}
+  - {r: 0.5764706, g: 0.1329714, b: 0.07843136, a: 0}
+  - {r: 0.8301887, g: 0, b: 0.7110393, a: 0}
+  - {r: 0.2264151, g: 0.024563907, b: 0.024563907, a: 0}
+  - {r: 0.9150943, g: 0.8521601, b: 0.23740657, a: 0}
+  - {r: 0.11176006, g: 0.3584906, b: 0.045656823, a: 0}
+  caRules: 000000000000000000000000000000000100000001000000
