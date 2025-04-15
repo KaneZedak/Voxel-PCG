@@ -47,7 +47,7 @@ public class PlanetProfileLoader : MonoBehaviour
                 if(activeProfile == null) {
                     planetProfiles[i].initialize(astronomyFetcher.GetPlanetDistance(planetProfiles[i].planetName));
                     activeProfile = planetProfiles[i];
-                    Debug.Log($"Planet {activeProfile.planetName} Profile Loaded.");
+                    Debug.Log($"Planet Profile {activeProfile.planetName} Loaded.");
                 }
             }
         }
