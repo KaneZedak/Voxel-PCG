@@ -6,7 +6,6 @@ public class DungeonGenerator : MonoBehaviour
 {
     public static DungeonGenerator Instance { get; private set; }
     public VoxelCreator creator;
-    [SerializeField] int numRooms;
     CavityCreator cavity;
     private Dictionary<int, List<int>> adjacencyDict;
     private Dictionary<int, Vector3> cavityLocations;
@@ -40,7 +39,7 @@ public class DungeonGenerator : MonoBehaviour
         cavityLocations = new Dictionary<int, Vector3>();
 
         // Populate adjacency dictionary
-        for (int i = 0; i < numRooms; i++)
+        for (int i = 0; i < PlanetProfileLoader.activeProfile.roomGenerationSetting.numberOfRooms; i++)
         {
             adjacencyDict[i] = new List<int>();
 
@@ -55,7 +54,7 @@ public class DungeonGenerator : MonoBehaviour
             // Randomly determine additional adjacencies
             for (int j = 0; j < i; j++)
             {
-                if (j != i && Random.value > 0.5f && !adjacencyDict[i].Contains(j))
+                if (j != i && Random.value > PlanetProfileLoader.activeProfile.paythwaySetting.levelOfAdjacency && !adjacencyDict[i].Contains(j))
                 {
                     adjacencyDict[i].Add(j);
                     adjacencyDict[j].Add(i);
@@ -85,7 +84,7 @@ public class DungeonGenerator : MonoBehaviour
                 {
                     // Determine a location for the adjacent room
                     Vector3 referenceLocation = cavityLocations[currentRoom];
-                    float distance = Random.Range(15f, 20f);
+                    float distance = Random.Range(PlanetProfileLoader.activeProfile.roomGenerationSetting.minAdjacentRoomDistance, PlanetProfileLoader.activeProfile.roomGenerationSetting.maxAdjacentRoomDistance);
                     Vector3 offset = Random.onUnitSphere * distance;
                     Vector3 location = referenceLocation + offset;
 
@@ -101,7 +100,7 @@ public class DungeonGenerator : MonoBehaviour
         }
 
         // Initialize roomLocations with numRooms
-        creator.roomLocations = new Vector3[numRooms];
+        creator.roomLocations = new Vector3[PlanetProfileLoader.activeProfile.roomGenerationSetting.numberOfRooms];
 
         // Initialize pcgSteps with numRooms cavities + erosion + connect rooms
         //creator.pcgSteps = new ProceduralModifier[numRooms + 2];
@@ -109,7 +108,7 @@ public class DungeonGenerator : MonoBehaviour
         // Use list to store newly created modifiers first
         List<ProceduralModifier> pcgModifiers = new List<ProceduralModifier>();
 
-        for (int i = 0; i < numRooms; i++)
+        for (int i = 0; i < PlanetProfileLoader.activeProfile.roomGenerationSetting.numberOfRooms; i++)
         {
             Vector3 location = cavityLocations[i];
             creator.roomLocations[i] = location; // Store room locations for use in ConnectRooms
