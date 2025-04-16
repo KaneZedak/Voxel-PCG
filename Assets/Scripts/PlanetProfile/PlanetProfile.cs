@@ -36,10 +36,19 @@ public class PlanetProfile : ScriptableObject
     public struct TextureSettings {
         public BlockType[] blockTypes;
     }
+
+    [System.Serializable]
+    public struct RenderSettings {
+        public Color fogColor;
+        public Color ambientColor;
+    }
+
+
     public RoomGenerationSettings roomGenerationSetting;
     public PathwaySettings paythwaySetting;
     public ErosionSettings erosionSetting;
-
+    public RenderSettings renderSettings;
+    
     public void initialize(float currentDistance)
     {
         if (maxDistance > minDistance)

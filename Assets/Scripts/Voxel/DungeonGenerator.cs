@@ -140,7 +140,7 @@ public class DungeonGenerator : MonoBehaviour
         cleaning.initialize(creator);
         pcgModifiers.Add(cleaning);
         creator.pcgSteps = pcgModifiers.ToArray();
-
+        
         creator.Generate(); // Generate the voxel structure
 
         yield break;

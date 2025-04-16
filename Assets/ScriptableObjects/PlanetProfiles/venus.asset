@@ -31,3 +31,6 @@ MonoBehaviour:
     baseSingularityStrength: 0
     baseSingularityRange: 0
     baseSingularityEffect: 0
+  renderSettings:
+    fogColor: {r: 1, g: 0.8408605, b: 0.5613208, a: 0}
+    ambientColor: {r: 0, g: 0, b: 0, a: 0}
