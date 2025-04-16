@@ -24,6 +24,7 @@ public class VoxelMeshContainer : MonoBehaviour
     private List<Vector3> meshVertices = new List<Vector3>();
     private List<int> meshTriangles = new List<int>();
     private List<Vector2> meshUV = new List<Vector2>();
+    private List<Vector3> meshNormals = new List<Vector3>();
     private GameObject[,,] subMeshes;
     private Queue<Vector3> subMeshQueue = new Queue<Vector3>();
 
@@ -161,6 +162,9 @@ public class VoxelMeshContainer : MonoBehaviour
         meshFilter.mesh.vertices = meshVertices.ToArray();
         meshFilter.mesh.triangles = meshTriangles.ToArray();
         meshFilter.mesh.uv = meshUV.ToArray();
+        meshFilter.mesh.normals = meshNormals.ToArray();
+
+        meshNormals.Clear();
         meshVertices.Clear();
         meshTriangles.Clear();
         meshUV.Clear();
@@ -217,11 +221,20 @@ public class VoxelMeshContainer : MonoBehaviour
             
             meshVertices.Add(VertexPos);      
             meshUV.Add(UVCoord[i]);
+            meshNormals.Add(new Vector3(0,0,0));
         }
 
-        
+        int triangleIndex = meshTriangles.Count;
+
         for(int j = 0; j < 6; j++) {
             meshTriangles.Add(verticesIndex[faceTriangleIndex[j]]);
+        }
+
+        for(int j = triangleIndex; j < triangleIndex + 6; j += 3) {
+            Vector3 calculatedNormal = CalculateSurfaceNormal(meshVertices[meshTriangles[j]], meshVertices[meshTriangles[j+1]], meshVertices[meshTriangles[j+2]]);
+            meshNormals[meshTriangles[j]] += calculatedNormal;
+            meshNormals[meshTriangles[j+1]] += calculatedNormal;
+            meshNormals[meshTriangles[j+2]] += calculatedNormal;
         }
         
         return;
@@ -233,6 +246,11 @@ public class VoxelMeshContainer : MonoBehaviour
         dimensionSize = newVoxel.GetLength(0);
     }
 
+    private Vector3 CalculateSurfaceNormal(Vector3 pointA, Vector3 pointB, Vector3 pointC) {
+        Vector3 sideAB = pointB - pointA;
+        Vector3 sideAC = pointC - pointA;
+        return Vector3.Cross(sideAB, sideAC).normalized;
+    }
     public void markForUpdate(int x, int y, int z) {
         
     }
