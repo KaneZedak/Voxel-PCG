@@ -168,6 +168,7 @@ public class TextureManager : MonoBehaviour
         int[,] next = new int[size, size];
 
         if (!textureRules.TryGetValue(tex, out int rule)) rule = 0;
+        float t = Time.time;
 
         for (int x = 0; x < size; x++)
             for (int y = 0; y < size; y++)
@@ -178,26 +179,23 @@ public class TextureManager : MonoBehaviour
                 switch (rule)
                 {
                     case 0: 
-                        int topZone = size * 4 / 5;
-                        int bottomZone = size* 3/ 5;
+                        int topZone = size * 1 / 5;
+                        int bottomZone = size * 4 / 5;
 
                         if (y >= topZone)
                         {
-                            
-                            if (current == 1 && Random.value > 0.50f) next[x, y] = 0;
-                            else if (current == 0 && Random.value > 0.98f) next[x, y] = 1;
+                            if (current == 1 && Random.value > 0.60f) next[x, y] = 0;
+                            else if (current == 0 && Random.value > 0.90f) next[x, y] = 1;
                             else next[x, y] = current;
                         }
                         else if (y < bottomZone)
                         {
-                           
-                            if (current == 1 && Random.value > 0.98f) next[x, y] = 0;
-                            else if (current == 0 && Random.value > 0.50f) next[x, y] = 1;
+                            if (current == 1 && Random.value > 0.90f) next[x, y] = 0;
+                            else if (current == 0 && Random.value > 0.60f) next[x, y] = 1;
                             else next[x, y] = current;
                         }
                         else
                         {
-                           
                             next[x, y] = (Random.value > 0.5f) ? 1 : 0;
                         }
                         break;
@@ -206,11 +204,82 @@ public class TextureManager : MonoBehaviour
                         next[x, y] = (alive + Random.Range(0, 2)) % 2;
                         break;
 
+                    case 2: // Venus 
+                        if (current == 0 && Random.value > 0.995f)
+                            next[x, y] = 1;
+                        else if (current == 0 && alive >= 3 && Random.value > 0.9f)
+                            next[x, y] = 1;
+                        else if (current == 1 && Random.value < 0.1f)
+                            next[x, y] = 0;
+                        else
+                            next[x, y] = current;
+                        break;
+
+                    case 3: // Mercury 
+                        float pulse = Mathf.Sin(t + (x * 0.15f) + (y * 0.1f)); 
+
+                        bool basePattern = ((x + y) % 6 == 0); 
+                        bool offsetWave = Mathf.PerlinNoise(x * 0.1f, y * 0.1f + t * 0.2f) > 0.5f;
+
+                        if (pulse > 0.6f && (basePattern || offsetWave))
+                            next[x, y] = 1;
+                        else if (Random.value > 0.985f) 
+                            next[x, y] = 1;
+                        else if (grid[x, y] == 1 && Random.value > 0.1f) 
+                            next[x, y] = 1;
+                        else
+                            next[x, y] = 0;
+                        break;
+
+                    case 4: // Jupiter 
+                        float centerX = size / 2f;
+                        float centerY = size / 2f;
+                        float dx = x - centerX;
+                        float dy = y - centerY;
+                        float dist = Mathf.Sqrt(dx * dx + dy * dy);
+                        float vortex = Mathf.Sin(dist * 0.5f - t * 1.5f);
+                        float band = Mathf.Sin(y * 0.3f + t * 2f);
+                        bool noiseSpike = Mathf.PerlinNoise(x * 0.1f, y * 0.1f + t) > 0.6f;
+
+                        if ((vortex > 0.5f && band > 0.2f) || noiseSpike)
+                            next[x, y] = 1;
+                        else if (current == 1 && Random.value > 0.1f)
+                            next[x, y] = 1;
+                        else if (current == 0 && alive >= 3 && Random.value > 0.95f)
+                            next[x, y] = 1;
+                        else
+                            next[x, y] = 0;
+                        break;
+
+                    case 5: // Saturn 
+                        int bandIndex = (y / 4) % 2;
+                        next[x, y] = Mathf.Sin(t * 2f + bandIndex * Mathf.PI) > 0 ? 1 : 0;
+                        break;
+
+                    case 6: // Neptune 
+                        if (current == 1 && alive < 1) next[x, y] = 0;
+                        else if (current == 0 && alive > 3) next[x, y] = 1;
+                        else if (current == 0 && Random.value > 0.999f) next[x, y] = 1;
+                        else next[x, y] = current;
+                        break;
+
+                    case 7: // Uranus 
+                        if (current == 0 && alive >= 2 && Random.value > 0.97f)
+                            next[x, y] = 1;
+                        else if (current == 1 && alive < 1 && Random.value > 0.9f)
+                            next[x, y] = 0;
+                        else if (current == 0 && Random.value > 0.999f)
+                            next[x, y] = 1;
+                        else
+                            next[x, y] = current;
+                        break;
+
                     default:
                         next[x, y] = current;
                         break;
                 }
             }
+
         var colors = textureColors[tex];
 
         for (int x = 0; x < size; x++)
@@ -220,6 +289,7 @@ public class TextureManager : MonoBehaviour
                 tex.SetPixel(x, y, grid[x, y] == 1 ? colors.alive : colors.dead);
             }
     }
+
 
     int CountAlive(int[,] grid, int x, int y)
     {
