@@ -35,6 +35,7 @@ public class BlockCleaning : ProceduralModifier
             for(int i = 0; i < 3; i++) {
                  for(int j = 0; j < 3; j++) {
                     for(int k = 0; k < 3; k++) {
+                        if(System.Math.Abs(adjacent[i]) + System.Math.Abs(adjacent[j]) + System.Math.Abs(adjacent[k]) > 1) continue;
                         if(adjacent[i] == 0 && adjacent[j] == 0 && adjacent[k] == 0) continue;
                         int adjacentX = adjacent[i] + currentBlock.x;
                         int adjacentY = adjacent[j] + currentBlock.y;
