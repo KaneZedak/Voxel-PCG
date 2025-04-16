@@ -48,6 +48,7 @@ public class PlanetProfile : ScriptableObject
     public PathwaySettings paythwaySetting;
     public ErosionSettings erosionSetting;
     public RenderSettings renderSettings;
+    public TextureSettings blockTextureSettings;
     
     public void initialize(float currentDistance)
     {

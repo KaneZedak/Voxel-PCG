@@ -47,7 +47,7 @@ public class VoxelCreator : MonoBehaviour
             {
                 for (int k = 0; k < voxelSize; k++)
                 {
-                    _voxel[i, j, k] = 0;
+                    _voxel[i, j, k] = PlanetProfileLoader.activeProfile.blockTextureSettings.blockTypes[0].id;
                 }
             }
         }

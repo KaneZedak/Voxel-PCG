@@ -34,3 +34,6 @@ MonoBehaviour:
   renderSettings:
     fogColor: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 0}
     ambientColor: {r: 0, g: 0, b: 0, a: 0}
+  blockTextureSettings:
+    blockTypes:
+    - {fileID: 11400000, guid: f2237e75d640ece46b31ed2db4719556, type: 2}
