@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -11,3 +13,5 @@ public class PlanetProfileEditor: Editor
         DrawDefaultInspector();
     }
 }
+
+#endif
