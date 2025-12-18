@@ -13,4 +13,4 @@
 
 Video Showcase
 
-[![Planetary Voxel PCG Showcase](https://img.youtube.com/vi/M2-_TgWQokE/0.jpg)](www.youtube.com)
+[![Planetary Voxel PCG Showcase](https://img.youtube.com/vi/M2-_TgWQokE/0.jpg)](https://www.youtube.com/watch?v=M2-_TgWQokE)
